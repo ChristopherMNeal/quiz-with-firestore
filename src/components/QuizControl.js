@@ -6,7 +6,6 @@ import NewQuizForm from "./NewQuizForm";
 import { withFirestore, isLoaded } from "react-redux-firebase";
 
 function QuizControl(props) {
-  console.log(props);
   const auth = props.firebase.auth();
 
   if (!isLoaded(auth)) {
