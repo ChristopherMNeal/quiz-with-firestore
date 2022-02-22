@@ -3,7 +3,7 @@ import Quiz from "./Quiz";
 import { useSelector, connect } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
-function QuizList() {
+function QuizList(props) {
   useFirestoreConnect([
     { collection: 'quizzes' }
   ]);
@@ -18,6 +18,7 @@ function QuizList() {
         {quizzes.map((quiz) => {
           return (
             <Quiz
+              onQuizClick={props.onQuizClick}
               quizName={quiz.quizName}
               author={quiz.author}
               key={quiz.id}
