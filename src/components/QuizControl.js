@@ -2,67 +2,57 @@ import QuizList from "./QuizList";
 import QuizDetails from "./QuizDetails";
 import NewQuizForm from "./NewQuizForm";
 import { withFirestore, isLoaded } from "react-redux-firebase";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 
-function QuizControl(props) {
-  const auth = props.firebase.auth();
+class QuizControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentQuizInDetail: null,
+      currentPage: 0,
+      //0 QuizList
+      //1 QuizDetail
+      //2 newQuizForm
+    };
+  }
 
-  const [currentQuizInDetail, setCurrentQuizInDetail] = useState(null);
-
-  const handleQuizClick = (id) => {
-    setCurrentQuizInDetail(id);
+  handleQuizClick = (id) => {
+    this.setState({
+      currentQuizInDetail: id,
+      currentPage: 1,
+    });
   };
 
-  if (!isLoaded(auth)) {
-    return (
-      <React.Fragment>
-        <h1>Loading...</h1>
-      </React.Fragment>
-    );
-  }
-  if (isLoaded(auth) && auth.currentUser == null) {
-    return (
-      <React.Fragment>
-        <h1>You must be signed in to access the queue.</h1>
-      </React.Fragment>
-    );
-  }
-  if (isLoaded(auth) && auth.currentUser != null) {
-    return (
-      <Router>
-        <Switch>
-          <Route path="/">
-            <QuizList onQuizClick={handleQuizClick} />
-          </Route>
-          <Route path="/quizDetails">
-            {currentQuizInDetail ? (
-              <h1>Loading...</h1>
-            ) : (
-              <QuizDetails detailedQuiz={currentQuizInDetail} />
-            )}
-          </Route>
-          <Route path="/newQuizForm">
-            <NewQuizForm />
-          </Route>
-        </Switch>
-      </Router>
-    );
+  render() {
+    const auth = this.props.firebase.auth();
+    let pageShowing = null;
+    if (this.state.currentPage === 0) {
+      pageShowing = <QuizList onQuizClick={this.handleQuizClick} />;
+    } else if (this.state.currentPage === 2) {
+      pageShowing = <NewQuizForm />;
+    } else if (this.state.currentQuizInDetail !== null) {
+      pageShowing = <QuizDetails id={this.state.currentQuizInDetail} />;
+    } else {
+      pageShowing = <h1>Loading...</h1>;
+    }
+    if (!isLoaded(auth)) {
+      return (
+        <React.Fragment>
+          <h1>Loading...</h1>
+        </React.Fragment>
+      );
+    }
+    if (isLoaded(auth) && auth.currentUser == null) {
+      return (
+        <React.Fragment>
+          <h1>You must be signed in to access the queue.</h1>
+        </React.Fragment>
+      );
+    }
+    if (isLoaded(auth) && auth.currentUser != null) {
+      return <React.Fragment>{pageShowing}</React.Fragment>;
+    }
   }
 }
 
 export default withFirestore(QuizControl);
-
-{
-  /* <Router>
-      <Header />
-      <Switch>
-        <Route path="/signin">
-          <Signin />
-        </Route>
-        <Route path="/">
-          <QuizControl />
-        </Route>
-      </Switch>
-    </Router> */
-}

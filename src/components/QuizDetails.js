@@ -1,75 +1,24 @@
 import React from "react";
 import Question from "./Question";
 import Result from "./Result";
+import { useSelector, connect } from "react-redux";
+import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
-const questionArray = [
-  {
-    quizName: "Trains?",
-    author: "Skylar",
-    results: {
-      0:{
-        resultTitle: "You are A Train!",
-        description:
-          "trains! cnksncs ckdsnvlkv  vdksnvn  cvnksv m vnksn v vnvksvn kd",
-      },
-      1:{
-        resultTitle: "nvnkskvsd",
-        description:
-          "vnkdnv knkdsnc cksmc csk v vdsmls vskv vs vkjsdnv vklcnvs v jk",
-      },
-      2:{
-          resultTitle: "nvnkskvsd",
-        description:
-          "vnkdnv knkdsnc cksmc csk v vdsmls vskv vs vkjsdnv vklcnvs v jk",
-      },
-      3:{
-        resultTitle: "nvnkskvsd",
-        description:
-          "vnkdnv knkdsnc cksmc csk v vdsmls vskv vs vkjsdnv vklcnvs v jk",
-      },
-    },
-    questions: {
-      0: {
-        question: "bcjsbc",
-        answer1: "nckca",
-        answer2: "nckc",
-        answer3: "cnvjxnv",
-        answer4: "cnbjsdbncsd",
-      },
-      1: {
-        question: "sbcsdf",
-        answer1: "kcaetete",
-        answer2: "kchi",
-        answer3: "alksf",
-        answer4: "LILJKJ",
-      },
-    },
-  },
-];
+function QuizDetails(props) {
 
-class QuizDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      quizIndex: 0,
-      resultsShowing: false,
-    };
-  }
+  useFirestoreConnect([{ collection: "quizzes", doc: props.id }]);
+  const quizzes = useSelector((state) => state.ordered.quizzes);
+  const quiz = quizzes.filter((quiz) => quiz.id == props.id);
+  console.log(quiz);
 
-  render() {
-    const currentQuestionNumber = this.state.quizIndex;
-    const currentQuestion = questionArray[0].questions[currentQuestionNumber];
-    const finalResult = questionArray[0].results[0];
-
+  if (isLoaded(quizzes)) {
     return (
       <React.Fragment>
-        <Question
-          questionNumber={currentQuestionNumber}
-          question={currentQuestion}
-        />
-        <Result result={finalResult} />
+        <Question quiz={quiz[0]} />
       </React.Fragment>
     );
+  } else {
+    return <h1>Loading...</h1>;
   }
 }
 
