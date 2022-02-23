@@ -35,7 +35,8 @@ function NewQuizForm(props) {
       }
       console.log(questionObject)
     } 
-    console.log(questionArray);
+    questionCount = 0;
+    props.onQuizCreate();
     return firestore.collection("quizzes").add({
       quizName: event.target.title.value,
       author: "testauthor",
@@ -49,8 +50,6 @@ function NewQuizForm(props) {
       resultFourDescription: event.target.resultFourDescription.value,
       questions: {...questionObject}
     });
-    questionCount = 0;
-    props.onQuizCreate();
   }
 
   return (
