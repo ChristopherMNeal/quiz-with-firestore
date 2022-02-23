@@ -15,31 +15,26 @@ class QuizControl extends React.Component {
   //     //2 newQuizForm
   //   };
   // }
-
   // handleDeletingQuiz = (id) => {
   //   this.props.firestore.delete({collection: 'quizzes', doc: id});
   //   this.setState({currentQuizInDetail: null});
   // }
-
   // handleQuizClick = (id) => {
   //   this.setState({
   //     currentQuizInDetail: id,
   //     currentPage: 1,
   //   });
   // };
-
   // handleCreateClick = () => {
   //   this.setState({
   //     currentPage: 2
   //   })
   // }
-
   // handleQuizCreate = () => {
   //   this.setState({
   //     currentPage: 0
   //   })
   // }
-
   // render() {
   //   const auth = this.props.firebase.auth();
   //   let pageShowing = null;

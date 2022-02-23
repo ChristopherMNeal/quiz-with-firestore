@@ -1,17 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-function Header() {
+function Header(props) {
+
+  const handleHome = () => props.handleHome();
+  const handleSign = () => props.handleSign();
   return (
     <nav>
       <ul>
         <li>logo</li>
         <li>User #1</li>
         <li>
-          <Link to="/">Home</Link>
+          <button onClick={handleHome}>Return Home</button>
         </li>
         <li>
-          <Link to="/signin">Sign in</Link>
+          <button onClick={handleSign}>Sign In</button>
         </li>
       </ul>
     </nav>
