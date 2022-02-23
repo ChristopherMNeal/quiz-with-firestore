@@ -15,6 +15,8 @@ function QuizDetails(props) {
     console.log(currentResultValue)
   };
 
+  const handleDeleteQuiz = () => props.handleDelete(props.id);
+
   useFirestoreConnect([{ collection: "quizzes", doc: props.id }]);
   const quizzes = useSelector((state) => state.ordered.quizzes);
   const quiz = quizzes.filter((quiz) => quiz.id === props.id);
@@ -29,7 +31,9 @@ function QuizDetails(props) {
             questions={quiz[0].questions}
             currentQuestion={currentQuestion}
             onQuestionAnswered={handleQuestionAnswered}
+
           />
+          <button onClick={handleDeleteQuiz}>Delete</button>
         </React.Fragment>
       );
     }
