@@ -23,13 +23,25 @@ class QuizControl extends React.Component {
     });
   };
 
+  handleCreateClick = () => {
+    this.setState({
+      currentPage: 2
+    })
+  }
+
+  handleQuizCreate = () => {
+    this.setState({
+      currentPage: 0
+    })
+  }
+
   render() {
     const auth = this.props.firebase.auth();
     let pageShowing = null;
     if (this.state.currentPage === 0) {
       pageShowing = <QuizList onQuizClick={this.handleQuizClick} />;
     } else if (this.state.currentPage === 2) {
-      pageShowing = <NewQuizForm />;
+      pageShowing = <NewQuizForm onQuizCreate={this.handleQuizCreate}/>;
     } else if (this.state.currentQuizInDetail !== null) {
       pageShowing = <QuizDetails id={this.state.currentQuizInDetail} />;
     } else {
@@ -50,7 +62,12 @@ class QuizControl extends React.Component {
       );
     }
     if (isLoaded(auth) && auth.currentUser != null) {
-      return <React.Fragment>{pageShowing}</React.Fragment>;
+      return (
+      <React.Fragment>
+        {pageShowing}
+        <button onClick={this.handleCreateClick}>Create a Quiz</button>
+      </React.Fragment>
+      );
     }
   }
 }
