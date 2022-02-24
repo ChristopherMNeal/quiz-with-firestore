@@ -1,45 +1,46 @@
 import React, { useState } from "react";
-import { useFirestore } from "react-redux-firebase";
+import { useFirestore, withFirestore } from "react-redux-firebase";
 
 let questionCount = 0;
 
 function NewQuizForm(props) {
   const firestore = useFirestore();
+  const auth = props.firebase.auth();
 
   const [questionArray, setQuestionArray] = useState([0]);
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.log(questionCount)
+    console.log(questionCount);
     questionCount += 1;
     setQuestionArray([...questionArray, questionCount]);
   };
 
   function addQuizToFirestore(event) {
     event.preventDefault();
-    let questionObject= {};
+    let questionObject = {};
     for (let i = questionCount; i >= 0; i--) {
-      console.log(i)
+      console.log(i);
       let currentObj = {
-        [`Question${i}`] : [
-        event.target[`Question${i}`].value, 
-        event.target[`AnswerOne${i}`].value,
-        event.target[`AnswerTwo${i}`].value,
-        event.target[`AnswerThree${i}`].value,
-        event.target[`AnswerFour${i}`].value,
-      ]
-      }
+        [`Question${i}`]: [
+          event.target[`Question${i}`].value,
+          event.target[`AnswerOne${i}`].value,
+          event.target[`AnswerTwo${i}`].value,
+          event.target[`AnswerThree${i}`].value,
+          event.target[`AnswerFour${i}`].value,
+        ],
+      };
       questionObject = {
         ...questionObject,
-        ...currentObj
-      }
-      console.log(questionObject)
-    } 
+        ...currentObj,
+      };
+      console.log(questionObject);
+    }
     questionCount = 0;
     props.onQuizCreate();
     return firestore.collection("quizzes").add({
       quizName: event.target.title.value,
-      author: "testauthor",
+      author: auth.currentUser.email,
       resultOne: event.target.resultOne.value,
       resultOneDescription: event.target.resultOneDescription.value,
       resultTwo: event.target.resultTwo.value,
@@ -48,7 +49,7 @@ function NewQuizForm(props) {
       resultThreeDescription: event.target.resultThreeDescription.value,
       resultFour: event.target.resultFour.value,
       resultFourDescription: event.target.resultFourDescription.value,
-      questions: {...questionObject}
+      questions: { ...questionObject },
     });
   }
 
@@ -105,4 +106,4 @@ function NewQuizForm(props) {
   );
 }
 
-export default NewQuizForm;
+export default withFirestore(NewQuizForm);

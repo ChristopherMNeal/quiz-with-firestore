@@ -25,6 +25,7 @@ function Signin(props) {
       .signOut()
       .then(function () {
         console.log("Successfully signed out!");
+        props.handleSign();
       })
       .catch(function (error) {
         console.log(error.message);
@@ -36,7 +37,6 @@ function Signin(props) {
   }
 
   const auth = props.firebase.auth();
-  console.log("auth = " + auth);
 
   return !isLoaded(auth) ? (
     <h1>Loading...</h1>

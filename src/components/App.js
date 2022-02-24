@@ -68,7 +68,6 @@ class App extends React.Component {
 
   render() {
     const auth = this.props.firebase.auth();
-    console.log("auth = " + auth);
     let pageShowing = null;
     let signInPageShowing = null;
     const handleReturnHome = this.handleBackHome;
@@ -85,6 +84,7 @@ class App extends React.Component {
         <Signin
           handleHome={handleReturnHome}
           handleSignUpClick={handleSignUpClick}
+          handleSign={handleSigninOnPage}
         />
       );
       signInPageShowing = pageShowing;
@@ -126,7 +126,7 @@ class App extends React.Component {
             handleHome={handleReturnHome}
             handleSign={handleSigninOnPage}
           />
-          { signInPageShowing }
+          {signInPageShowing}
           <h1>You must be signed in to access the queue.</h1>
         </React.Fragment>
       );

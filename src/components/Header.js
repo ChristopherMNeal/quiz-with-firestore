@@ -1,14 +1,21 @@
 import React from "react";
+import { withFirestore, isLoaded } from "react-redux-firebase";
 
 function Header(props) {
-
+  const auth = props.firebase.auth();
   const handleHome = () => props.handleHome();
   const handleSign = () => props.handleSign();
+  let greeting;
+  if (auth.currentUser) {
+    greeting = "You're signed in as: " + auth.currentUser.email;
+  } else {
+    greeting = "Not signed in";
+  }
   return (
     <nav>
       <ul>
         <li>logo</li>
-        <li>User #1</li>
+        <li>{greeting}</li>
         <li>
           <button onClick={handleHome}>Return Home</button>
         </li>
@@ -20,4 +27,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default withFirestore(Header);
