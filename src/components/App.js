@@ -14,7 +14,6 @@ class App extends React.Component {
     this.state = {
       currentQuizInDetail: null,
       currentPage: 0,
-
       //0 QuizList
       //1 QuizDetail
       //2 newQuizForm
@@ -76,7 +75,14 @@ class App extends React.Component {
     const handleSignUpClick = this.handleSignUpClick;
 
     if (this.state.currentPage === 0) {
-      pageShowing = <QuizList onQuizClick={this.handleQuizClick} />;
+      pageShowing = (
+        <div>
+          <QuizList
+            onQuizClick={this.handleQuizClick}
+            onCreateClick={this.handleCreateClick}
+          />
+        </div>
+      );
     } else if (this.state.currentPage === 2) {
       pageShowing = <NewQuizForm onQuizCreate={this.handleBackHome} />;
     } else if (this.state.currentPage === 3) {
@@ -108,6 +114,7 @@ class App extends React.Component {
     } else {
       pageShowing = <h1>Loading...</h1>;
     }
+
     if (!isLoaded(auth)) {
       return (
         <React.Fragment>
@@ -115,7 +122,9 @@ class App extends React.Component {
             handleHome={handleReturnHome}
             handleSign={handleSigninOnPage}
           />
-          <h1>Loading...</h1>
+          <div className="container">
+            <h1>Loading...</h1>
+          </div>
         </React.Fragment>
       );
     }
@@ -126,8 +135,10 @@ class App extends React.Component {
             handleHome={handleReturnHome}
             handleSign={handleSigninOnPage}
           />
-          {signInPageShowing}
-          <h1>You must be signed in to access the queue.</h1>
+          <div className="container">
+            {signInPageShowing}
+            <h1>You must be signed in to access the queue.</h1>
+          </div>
         </React.Fragment>
       );
     }
@@ -138,8 +149,9 @@ class App extends React.Component {
             handleHome={handleReturnHome}
             handleSign={handleSigninOnPage}
           />
+        <div className="container">
           {pageShowing}
-          <button onClick={handleClick}>Create a Quiz</button>
+        </div>
         </React.Fragment>
       );
     }

@@ -1,15 +1,28 @@
 import React from "react";
+import styled from "styled-components";
 
 function Quiz(props) {
   const handleQuizClick = () => {
     props.onQuizClick(props.id);
   };
 
+  const QuizItem = styled.div `
+    border-top: .1em solid grey;
+    margin-bottom: 2em;
+    :hover {
+      cursor: pointer;
+    }
+  `;
+
+  const H2Style = styled.h2 `
+    color: #446286;
+  `;
+
   return (
-    <div onClick={handleQuizClick}>
-      <h2>{props.quizName}</h2>
+    <QuizItem onClick={handleQuizClick}>
+      <H2Style>{props.quizName}</H2Style>
       <h4>by: {props.author}</h4>
-    </div>
+    </QuizItem>
   );
 }
 

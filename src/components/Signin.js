@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
 import { withFirestore, isLoaded } from "react-redux-firebase";
+import styled from "styled-components";
 
 function Signin(props) {
   function doSignIn(event) {
@@ -38,6 +39,18 @@ function Signin(props) {
 
   const auth = props.firebase.auth();
 
+  //styles
+  const SignUpLink = styled.p `
+    color: color: #446286;
+    font-size: 1.2rem;
+    :hover {
+      cursor: pointer;
+      color: #203d5e;
+    }
+  `;
+
+  
+
   return !isLoaded(auth) ? (
     <h1>Loading...</h1>
   ) : isLoaded(auth) && auth.currentUser == null ? (
@@ -48,7 +61,7 @@ function Signin(props) {
         <input type="password" name="signinPassword" placeholder="Password" />
         <button type="submit">Sign in</button>
       </form>
-      <p onClick={handleSignUp}>You new here? Sign up!</p>
+      <SignUpLink onClick={handleSignUp}>You new here? Sign up!</SignUpLink>
     </React.Fragment>
   ) : (
     <React.Fragment>
