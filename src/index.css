@@ -19,3 +19,7 @@ button:hover {
   font-size: 1.7rem;
   color: #446286;
 }
+
+#logo:hover {
+  cursor: pointer;
+}

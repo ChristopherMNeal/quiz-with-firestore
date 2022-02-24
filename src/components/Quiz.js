@@ -8,9 +8,10 @@ function Quiz(props) {
 
   const QuizItem = styled.div `
     border-top: .1em solid grey;
-    margin-bottom: 2em;
+    padding-bottom: 2em;
     :hover {
       cursor: pointer;
+      background-color: #ededed
     }
   `;
 
