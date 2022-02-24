@@ -33,6 +33,7 @@ function QuizList(props) {
   if (isLoaded(quizzes)) {
     return (
       <React.Fragment>
+        <div id="HeroImageDiv"></div>
         <ButtonStyle onClick={onCreateClick}>Create A Quiz</ButtonStyle>
         {quizzes.map((quiz) => {
           return (
